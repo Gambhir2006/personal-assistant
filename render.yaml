@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: radhee-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: radhee-db
+          property: connectionString
+      - key: AI_PROVIDER
+        value: openai
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4
+      - key: OPENAI_BASE_URL
+        value: https://api.openai.com/v1
+      - key: CORS_ORIGINS
+        value: https://your-frontend.vercel.app
+      - key: PORT
+        value: 8000
+
+databases:
+  - name: radhee-db
+    databaseName: radhee
+    user: radhee
