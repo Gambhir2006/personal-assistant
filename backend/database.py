@@ -3,12 +3,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 from backend.config import settings
+import os
 
 # Get database URL from settings (supports both SQLite and PostgreSQL)
 DATABASE_URL = settings.get_database_url
 
 # Create engine with appropriate arguments based on database type
 if DATABASE_URL.startswith("sqlite"):
+    os.makedirs("./database", exist_ok=True)
     engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 else:
     # PostgreSQL
