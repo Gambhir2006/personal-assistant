@@ -68,58 +68,60 @@ function Notes() {
   );
 
   return (
-    <div className="flex flex-col h-[600px]">
+    <div className="flex flex-col h-[500px] md:h-[600px]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-white">Notes</h2>
+      <div className="flex justify-between items-center mb-3 md:mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-white">Notes</h2>
         <button
           onClick={() => {
             setShowAddForm(!showAddForm);
             setEditingNote(null);
             setFormData({ title: '', content: '' });
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+          className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-xs md:text-sm"
         >
-          <Plus size={18} />
-          {showAddForm ? 'Cancel' : 'Add Note'}
+          <Plus size={16} className="md:hidden" />
+          <Plus size={18} className="hidden md:block" />
+          <span className="hidden md:inline">{showAddForm ? 'Cancel' : 'Add Note'}</span>
         </button>
       </div>
 
       {/* Search */}
-      <div className="mb-4">
+      <div className="mb-3 md:mb-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300" size={18} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300" size={16} className="md:hidden" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-300" size={18} className="hidden md:block" />
           <input
             type="text"
             placeholder="Search notes..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-lg pl-9 md:pl-10 pr-3 md:pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base"
           />
         </div>
       </div>
 
       {/* Add/Edit Form */}
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-white/10 rounded-xl p-4 mb-4">
+        <form onSubmit={handleSubmit} className="bg-white/10 rounded-xl p-3 md:p-4 mb-3 md:mb-4">
           <input
             type="text"
             placeholder="Note title"
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-lg px-3 md:px-4 py-2 mb-2 md:mb-3 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base"
             required
           />
           <textarea
             placeholder="Note content"
             value={formData.content}
             onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-lg px-4 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-lg px-3 md:px-4 py-2 mb-2 md:mb-3 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base"
             rows="4"
           />
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors"
+            className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm md:text-base"
           >
             {editingNote ? 'Update Note' : 'Create Note'}
           </button>
@@ -127,40 +129,42 @@ function Notes() {
       )}
 
       {/* Notes List */}
-      <div className="flex-1 overflow-y-auto space-y-3 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto space-y-2 md:space-y-3 scrollbar-hide">
         {filteredNotes.length === 0 ? (
-          <div className="text-center text-purple-200 py-20">
-            <p className="text-lg">{notes.length === 0 ? 'No notes yet' : 'No notes match your search'}</p>
-            <p className="text-sm mt-2">
+          <div className="text-center text-purple-200 py-10 md:py-20">
+            <p className="text-sm md:text-lg">{notes.length === 0 ? 'No notes yet' : 'No notes match your search'}</p>
+            <p className="text-xs md:text-sm mt-2">
               {notes.length === 0 ? 'Click "Add Note" to create your first note!' : 'Try a different search term'}
             </p>
           </div>
         ) : (
           filteredNotes.map((note) => (
-            <div key={note.id} className="bg-white/10 rounded-xl p-4 hover:bg-white/15 transition-colors">
-              <div className="flex justify-between items-start gap-3">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white">{note.title}</h3>
+            <div key={note.id} className="bg-white/10 rounded-xl p-3 md:p-4 hover:bg-white/15 transition-colors">
+              <div className="flex justify-between items-start gap-2 md:gap-3">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm md:text-lg font-semibold text-white">{note.title}</h3>
                   {note.content && (
-                    <p className="text-purple-200 text-sm mt-2 whitespace-pre-wrap">{note.content}</p>
+                    <p className="text-purple-200 text-xs md:text-sm mt-1 md:mt-2 whitespace-pre-wrap line-clamp-3 md:line-clamp-none">{note.content}</p>
                   )}
-                  <p className="text-purple-300 text-xs mt-3">
-                    {new Date(note.created_at).toLocaleDateString()} at {new Date(note.created_at).toLocaleTimeString()}
+                  <p className="text-purple-300 text-xs mt-2 md:mt-3">
+                    {new Date(note.created_at).toLocaleDateString()} at {new Date(note.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                   </p>
                 </div>
-                
-                <div className="flex gap-2">
+
+                <div className="flex gap-1 md:gap-2">
                   <button
                     onClick={() => startEdit(note)}
-                    className="p-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors"
+                    className="p-1 md:p-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors"
                   >
-                    <Edit2 size={16} />
+                    <Edit2 size={14} className="md:hidden" />
+                    <Edit2 size={16} className="hidden md:block" />
                   </button>
                   <button
                     onClick={() => deleteNote(note.id)}
-                    className="p-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition-colors"
+                    className="p-1 md:p-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition-colors"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={14} className="md:hidden" />
+                    <Trash2 size={16} className="hidden md:block" />
                   </button>
                 </div>
               </div>

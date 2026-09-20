@@ -122,35 +122,36 @@ function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-[600px]">
+    <div className="flex flex-col h-[500px] md:h-[600px]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-white">AI Chat</h2>
+      <div className="flex justify-between items-center mb-3 md:mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-white">AI Chat</h2>
         <button
           onClick={clearConversation}
-          className="flex items-center gap-2 px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition-colors"
+          className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-2 bg-red-500/20 text-red-300 rounded-lg hover:bg-red-500/30 transition-colors text-xs md:text-sm"
         >
-          <Trash2 size={18} />
-          Clear
+          <Trash2 size={16} className="md:hidden" />
+          <Trash2 size={18} className="hidden md:block" />
+          <span className="hidden md:inline">Clear</span>
         </button>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto space-y-4 mb-4 scrollbar-hide">
+      <div className="flex-1 overflow-y-auto space-y-3 md:space-y-4 mb-3 md:mb-4 scrollbar-hide">
         {messages.length === 0 && (
-          <div className="text-center text-purple-200 py-20">
-            <p className="text-lg">Start a conversation with your AI assistant</p>
-            <p className="text-sm mt-2">Ask me anything about tasks, notes, or general questions!</p>
+          <div className="text-center text-purple-200 py-10 md:py-20">
+            <p className="text-sm md:text-lg">Start a conversation with your AI assistant</p>
+            <p className="text-xs md:text-sm mt-2">Ask me anything about tasks, notes, or general questions!</p>
           </div>
         )}
-        
+
         {messages.map((message, index) => (
           <div
             key={index}
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-[70%] rounded-2xl px-4 py-3 ${
+              className={`max-w-[85%] md:max-w-[70%] rounded-2xl px-3 md:px-4 py-2 md:py-3 ${
                 message.role === 'user'
                   ? 'bg-purple-600 text-white'
                   : 'bg-white/20 text-white'
@@ -158,17 +159,17 @@ function Chat() {
             >
               {message.file && (
                 <div className="mb-2 p-2 bg-white/10 rounded-lg">
-                  <p className="text-sm font-medium">📎 {message.file.name}</p>
+                  <p className="text-xs md:text-sm font-medium">📎 {message.file.name}</p>
                 </div>
               )}
-              <p className="whitespace-pre-wrap">{message.content}</p>
+              <p className="whitespace-pre-wrap text-sm md:text-base">{message.content}</p>
             </div>
           </div>
         ))}
-        
+
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-white/20 rounded-2xl px-4 py-3">
+            <div className="bg-white/20 rounded-2xl px-3 md:px-4 py-2 md:py-3">
               <div className="flex gap-2">
                 <div className="w-2 h-2 bg-white rounded-full animate-bounce" />
                 <div className="w-2 h-2 bg-white rounded-full animate-bounce delay-100" />
@@ -181,27 +182,29 @@ function Chat() {
       </div>
 
       {/* Input */}
-      <div className="flex gap-3">
+      <div className="flex gap-2 md:gap-3">
         <button
           onClick={startRecording}
-          className={`p-3 rounded-xl transition-colors ${
+          className={`p-2 md:p-3 rounded-xl transition-colors ${
             isRecording
               ? 'bg-red-500 text-white animate-pulse'
               : 'bg-white/20 text-white hover:bg-white/30'
           }`}
         >
-          <Mic size={20} />
+          <Mic size={18} className="md:hidden" />
+          <Mic size={20} className="hidden md:block" />
         </button>
 
         <button
           onClick={() => fileInputRef.current?.click()}
-          className={`p-3 rounded-xl transition-colors ${
+          className={`p-2 md:p-3 rounded-xl transition-colors ${
             attachedFile
               ? 'bg-purple-600 text-white'
               : 'bg-white/20 text-white hover:bg-white/30'
           }`}
         >
-          <Paperclip size={20} />
+          <Paperclip size={18} className="md:hidden" />
+          <Paperclip size={20} className="hidden md:block" />
         </button>
         <input
           type="file"
@@ -218,15 +221,15 @@ function Chat() {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type your message..."
-            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full bg-white/20 text-white placeholder-purple-200 rounded-xl px-3 md:px-4 py-2 md:py-3 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base"
             disabled={isLoading}
           />
           {attachedFile && (
-            <div className="absolute top-full left-0 mt-2 flex items-center gap-2 bg-white/10 rounded-lg px-3 py-2">
-              <span className="text-sm text-white">📎 {attachedFile.name}</span>
+            <div className="absolute top-full left-0 mt-2 flex items-center gap-2 bg-white/10 rounded-lg px-2 md:px-3 py-2">
+              <span className="text-xs md:text-sm text-white truncate max-w-[150px] md:max-w-none">📎 {attachedFile.name}</span>
               <button
                 onClick={removeFile}
-                className="text-red-300 hover:text-red-200"
+                className="text-red-300 hover:text-red-200 text-xs"
               >
                 ✕
               </button>
@@ -237,9 +240,10 @@ function Chat() {
         <button
           onClick={sendMessage}
           disabled={isLoading || (!input.trim() && !attachedFile)}
-          className="bg-purple-600 text-white p-3 rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-purple-600 text-white p-2 md:p-3 rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Send size={20} />
+          <Send size={18} className="md:hidden" />
+          <Send size={20} className="hidden md:block" />
         </button>
       </div>
     </div>
