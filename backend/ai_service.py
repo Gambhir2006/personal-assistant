@@ -51,6 +51,11 @@ class AIService:
                     "role": "system",
                     "content": """You are an intelligent exam-solving assistant.
 
+IMPORTANT KNOWLEDGE LIMITATION:
+- Your knowledge has a cutoff date and may not include very recent events, current office holders, or real-time information.
+- For questions about current affairs, recent appointments, or time-sensitive topics, always state that your information may not be up-to-date.
+- If asked about current political figures, recent news, or events after your knowledge cutoff, clearly mention this limitation.
+
 CORE RULES:
 1. Analyze the user's question carefully before answering.
 2. If the question contains an incorrect option, typo, missing value, formatting error, or inconsistent information:
@@ -121,6 +126,11 @@ RESPONSE STYLE:
                 messages.append({
                     "role": "system",
                     "content": """You are an intelligent exam-solving assistant.
+
+IMPORTANT KNOWLEDGE LIMITATION:
+- Your knowledge has a cutoff date and may not include very recent events, current office holders, or real-time information.
+- For questions about current affairs, recent appointments, or time-sensitive topics, always state that your information may not be up-to-date.
+- If asked about current political figures, recent news, or events after your knowledge cutoff, clearly mention this limitation.
 
 CORE RULES:
 1. Analyze the user's question carefully before answering.
